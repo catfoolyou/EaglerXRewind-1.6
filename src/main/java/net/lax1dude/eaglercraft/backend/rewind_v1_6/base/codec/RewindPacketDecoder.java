@@ -42,7 +42,10 @@ public class RewindPacketDecoder<PlayerObject> extends RewindChannelHandler.Deco
 		try {
 			fuck: switch (pktId) {
             case 0x1B:
-                System.out.println("packet 0x1B??");
+                System.out.println("1.6 packet 0x1B??");
+                break;
+            case 0x2C:
+                System.out.println("1.6 packet 0x2c??");
                 break;
             case 0x85:
                 System.out.println("what the fuck?");

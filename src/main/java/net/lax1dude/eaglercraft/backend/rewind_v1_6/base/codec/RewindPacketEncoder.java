@@ -1575,6 +1575,40 @@ public class RewindPacketEncoder<PlayerObject> extends RewindChannelHandler.Enco
 	    bb.writeBoolean(in.readBoolean());
     }
 
+    private void handleEntityProperties(ByteBuf in, ByteBuf bb) {
+        bb.writeByte(0x2C);
+        bb.writeInt(BufferUtils.readVarInt(in));
+		int arrLength = in.readInt();
+	    bb.writeInt(arrLength);
+
+		for(int i = 0; i < arrLength; i++){
+			String key = BufferUtils.readMCString(in, 32);
+			BufferUtils.writeLegacyMCString(bb, key, 32);
+
+			bb.writeDouble(in.readDouble());
+			short arrLen2 = (short) BufferUtils.readVarInt(in);
+			bb.writeShort(arrLen2);
+
+			for(int j = 0; j < arrLen2; j++){
+				bb.writeInt(in.readInt());
+				bb.writeDouble(in.readDouble());
+				bb.writeByte(in.readByte());
+			}
+		}
+
+//        String key = BufferUtils.readMCString(in, 32);
+//        BufferUtils.writeLegacyMCString(bb, key, 32);
+//
+//        bb.writeDouble(in.readDouble());
+//        bb.writeShort(BufferUtils.readVarInt(in));
+
+//        bb.writeInt(in.readInt());
+//        bb.writeDouble(in.readDouble());
+//        bb.writeByte(in.readByte());
+
+        //array of shit: string, double, short, "array" (128bit int, double, byte)  
+    }
+
 	@Override
 	protected void encode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
 		int pktId = BufferUtils.readVarInt(in);
@@ -1583,6 +1617,8 @@ public class RewindPacketEncoder<PlayerObject> extends RewindChannelHandler.Enco
 			switch (pktId) {
             case 0x20:
                 System.out.println("clientbound packet 0x20");
+                bb = ctx.alloc().buffer();
+                handleEntityProperties(in, bb);
                 break;
             case 0x85:
                 System.out.println("clientbound packet 0x85");
