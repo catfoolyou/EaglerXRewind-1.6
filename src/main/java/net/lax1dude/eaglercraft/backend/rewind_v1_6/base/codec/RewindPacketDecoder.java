@@ -39,13 +39,14 @@ public class RewindPacketDecoder<PlayerObject> extends RewindChannelHandler.Deco
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
 		int pktId = in.readUnsignedByte();
 		ByteBuf bb = null;
+		System.out.println("reading 1.6 packet, id " + pktId); // 0, 11, 13
 		try {
 			fuck: switch (pktId) {
             case 0x1B:
                 System.out.println("1.6 packet 0x1B??");
                 break;
             case 0x2C:
-                System.out.println("1.6 packet 0x2c??");
+                System.out.println("1.6 packet 0x2C??");
                 break;
             case 0x85:
                 System.out.println("what the fuck?");

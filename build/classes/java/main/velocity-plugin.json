@@ -1,1 +1,0 @@
-{"id":"eaglerxrewind-1-6","name":"EaglercraftXRewind-1.56","version":"1.0.0","description":"Official Eaglercraft 1.6.4 compatibility plugin for EaglercraftXServer","authors":["catfoolyou","lax1dude","ayunami2000"],"dependencies":[{"id":"eaglerxserver","optional":false}],"main":"net.lax1dude.eaglercraft.backend.rewind_v1_6.velocity.PlatformPluginVelocity"}

@@ -565,8 +565,7 @@ public class BufferUtils {
 		remapMeta(entityType, index, entryType, bb, entryValue, null);
 	}
 
-	private static void remapMeta(int entityType, int index, int entryType, ByteBuf bb, Object entryValue,
-			PlayerNameHolder playerNameHolder) {
+	private static void remapMeta(int entityType, int index, int entryType, ByteBuf bb, Object entryValue, PlayerNameHolder playerNameHolder) {
 		boolean mobNotObject = entityType >= 100 && entityType <= 300;
 		if (entityType >= 300) {
 			entityType -= 300;

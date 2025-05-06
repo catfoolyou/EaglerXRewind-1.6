@@ -1584,6 +1584,7 @@ public class RewindPacketEncoder<PlayerObject> extends RewindChannelHandler.Enco
 		for(int i = 0; i < arrLength; i++){
 			String key = BufferUtils.readMCString(in, 32);
 			BufferUtils.writeLegacyMCString(bb, key, 32);
+			//BufferUtils.convertMCString2Legacy(in, bb, 32);
 
 			bb.writeDouble(in.readDouble());
 			short arrLen2 = (short) BufferUtils.readVarInt(in);
@@ -1615,13 +1616,15 @@ public class RewindPacketEncoder<PlayerObject> extends RewindChannelHandler.Enco
 		ByteBuf bb = null;
 		try {
 			switch (pktId) {
+			default:
+				System.out.println("Inbound 1.8.x packet " + pktId + " has no outbound 1.6.4 equivalent!"); // packets 71, 69, 65, 68 (0x47, 0x45, 0x41, 0x44) (not in order)
             case 0x20:
-                System.out.println("clientbound packet 0x20");
                 bb = ctx.alloc().buffer();
                 handleEntityProperties(in, bb);
                 break;
-            case 0x85:
-                System.out.println("clientbound packet 0x85");
+            case 0x36:
+				System.out.println("Sign packet, I still havent figured this one out");
+                //handle sign packet, (send 1.6 packet 0x85)
                 break;
 			case 0x00:
 				bb = ctx.alloc().buffer();
@@ -1868,6 +1871,7 @@ public class RewindPacketEncoder<PlayerObject> extends RewindChannelHandler.Enco
 				out.add(bb);
 			}
 		} catch (Exception e) {
+			System.out.println("error with fucking packet " + pktId);
 			logger().error("Could not encode rewind packet", e);
 			if (bb != null) {
 				bb.release();
